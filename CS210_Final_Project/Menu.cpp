@@ -10,7 +10,7 @@ void Menu::tick() {
 	cout << "Choose a menu option: ";
 	int i = 0;
 	for (; i < options.size(); i++) {
-		cout << (i + 1) << ". " << options[i].getDisplayName() << " | ";
+		cout << (i + 1) << ". " << options[i]->getDisplayName() << " | ";
 	}
 	cout << (i + 1) << ". Close" << endl;
 
@@ -33,7 +33,7 @@ void Menu::tick() {
 		return;
 	}
 
-	options[i].action();
+	options[i]->action();
 }
 
 void Menu::open() {

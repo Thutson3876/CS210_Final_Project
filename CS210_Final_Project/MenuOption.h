@@ -11,10 +11,8 @@ private:
 
 	std::vector<std::string> input;
 
-/*protected:
+protected:
 	MenuOption(std::string name, std::string promp) : displayName(name), prompt(promp) {}
-
-	~MenuOption() {}*/
 
 public:
 	std::string getDisplayName() { 

@@ -1,8 +1,13 @@
 #include "Menu.h"
+#include "FindOption.h"
 
 
 int main() {
-	Menu menu = Menu();
+	auto options = std::vector<MenuOption*>();
+	options.push_back(new FindOption());
+
+	Menu menu = Menu(options);
+	
 	menu.open();
 
 }
