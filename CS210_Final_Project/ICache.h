@@ -10,8 +10,6 @@ protected:
 
 	std::unordered_map<std::string, City*> map = {};
 
-	virtual void add(City& city) = 0;
-
 	virtual void validateSize() = 0;
 
 	std::string generateKey(City& city) {
@@ -19,5 +17,7 @@ protected:
 	}
 
 public:
+	virtual void add(City& city) = 0;
+
 	City* lookup(std::string key);
 };

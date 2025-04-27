@@ -5,8 +5,10 @@
 class RRCache : public ICache
 {
 private:
-	void add(City& city);
 
 	void validateSize();
+public:
+	void add(City& city);
+
 };
 

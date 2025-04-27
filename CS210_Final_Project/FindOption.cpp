@@ -19,7 +19,8 @@ void FindOption::action() {
 
 	string key = countryCode + cityName;
 
-	City* city = Menu::getInstance()->getCache()->lookup(key);
+	ICache* cache = Menu::getInstance()->getCache();
+	City* city = cache->lookup(key);
 
 	// not in cache
 	if (city == nullptr) {
@@ -30,6 +31,8 @@ void FindOption::action() {
 			return;
 		}
 	}
+
+	cache->add(*city);
 
 	cout << "City Found!" << endl;
 	cout << city->operator std::string() << endl;

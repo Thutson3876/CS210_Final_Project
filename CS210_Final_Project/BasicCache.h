@@ -9,9 +9,8 @@ class BasicCache : public ICache
 private:
 	std::queue<std::string> queue = {};
 
-	void add(City& city);
-
 	void validateSize();
-
+public:
+	void add(City& city);
 };
 

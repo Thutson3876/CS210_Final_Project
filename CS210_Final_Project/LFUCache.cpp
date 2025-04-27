@@ -14,6 +14,7 @@ void LFUCache::add(City& city) {
 
 	map.insert({ key, &city });
 	frequencyMap[key]++;
+	queue.push_back(key);
 
 	validateSize();
 }
@@ -24,10 +25,19 @@ void LFUCache::validateSize() {
 		return;
 
 	for (int i = 0; i < sizeDiff; i++) {
-		std::unordered_map<string, int>::iterator it
-			= std::min_element(frequencyMap.begin(), frequencyMap.end(), [](const std::pair<string, int>& a, const std::pair<string, int>& b)->bool { return a.second < b.second; });
-		string key = it->first;
-		map.erase(key);
-		frequencyMap.erase(key);
+		int lowest = 999999;
+		string lowestKey = "";
+		for (auto it = queue.begin(); it != queue.end(); it++)
+		{
+			int curr = frequencyMap[*it];
+			if (curr < lowest) {
+				lowest = curr;
+				lowestKey = *it;
+			}
+		}
+
+		map.erase(lowestKey);
+		frequencyMap.erase(lowestKey);
+		queue.erase(remove(queue.begin(), queue.end(), lowestKey), queue.end());
 	}
 }

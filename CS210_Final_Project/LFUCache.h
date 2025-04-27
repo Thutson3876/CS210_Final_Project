@@ -7,10 +7,14 @@ class LFUCache : public ICache
 {
 private:
 	std::unordered_map<std::string, int> frequencyMap = {};
-
-	void add(City& city);
+	std::vector<std::string> queue = {};
 
 	void validateSize();
 
+public:
+	void add(City& city);
 };
 
+/*
+
+*/
