@@ -1,5 +1,6 @@
 #include "Menu.h"
 #include "Utils.h"
+#include "ICache.h"
 #include <iostream>
 
 using namespace std;
@@ -46,4 +47,29 @@ void Menu::open() {
 
 void Menu::close() {
 	isOpened = false;
+}
+
+void Menu::setCache(CacheType type) {
+	if (cache != nullptr) {
+		delete cache;
+		cache = nullptr;
+	}
+	
+
+	switch (type)
+	{
+	case LFU:
+		
+		break;
+	case FIFO:
+		break;
+	case RR:
+		break;
+	default:
+		break;
+	}
+}
+
+ICache* Menu::getCache() {
+	return cache;
 }

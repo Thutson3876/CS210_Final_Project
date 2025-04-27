@@ -2,7 +2,7 @@
 #include <string>
 #include <vector>
 
-class MenuOption
+class IMenuOption
 {
 private:
 	std::string displayName;
@@ -12,7 +12,7 @@ private:
 	std::vector<std::string> input;
 
 protected:
-	MenuOption(std::string name, std::string promp) : displayName(name), prompt(promp) {}
+	IMenuOption(std::string name, std::string promp) : displayName(name), prompt(promp) {}
 
 public:
 	std::string getDisplayName() { 

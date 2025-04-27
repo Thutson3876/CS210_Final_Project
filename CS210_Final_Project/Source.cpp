@@ -1,13 +1,15 @@
 #include "Menu.h"
 #include "FindOption.h"
 
+Menu* Menu::instancePtr = nullptr;
+std::mutex Menu::mtx;
 
 int main() {
-	auto options = std::vector<MenuOption*>();
+	auto options = std::vector<IMenuOption*>();
 	options.push_back(new FindOption());
 
-	Menu menu = Menu(options);
+	Menu* menu = Menu::getInstance();
 	
-	menu.open();
+	menu->open();
 
 }

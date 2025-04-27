@@ -21,7 +21,7 @@
     <ClCompile Include="Menu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MenuOption.cpp">
+    <ClCompile Include="IMenuOption.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="FindOption.cpp">
@@ -30,12 +30,15 @@
     <ClCompile Include="BasicCache.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CacheTypeOption.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Menu.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MenuOption.h">
+    <ClInclude Include="IMenuOption.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Utils.h">
@@ -51,6 +54,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="BasicCache.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CacheTypeOption.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

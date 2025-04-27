@@ -2,6 +2,7 @@
 #include <iostream>
 #include <istream>
 #include <iomanip>
+#include "Menu.h"
 
 using namespace std;
 
@@ -18,7 +19,7 @@ void FindOption::action() {
 
 	string key = countryCode + cityName;
 
-	City* city = cache.lookup(key);
+	City* city = Menu::getInstance()->getCache()->lookup(key);
 
 	// not in cache
 	if (city == nullptr) {
