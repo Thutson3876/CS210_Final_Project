@@ -1,9 +1,8 @@
-#include "BasicCache.h"
-#include "Utils.h"
+#include "RRCache.h"
 
 using namespace std;
 
-void BasicCache::add(City& city) {
+void RRCache::add(City& city) {
 	string key = generateKey(city);
 	auto foundCity = map.find(key);
 
@@ -13,20 +12,21 @@ void BasicCache::add(City& city) {
 	}
 
 	map.insert({ key, &city });
-	queue.push(key);
 
 	validateSize();
 }
 
-void BasicCache::validateSize() {
-	int sizeDiff = queue.size() - maxSize;
+void RRCache::validateSize() {
+	int sizeDiff = map.size() - maxSize;
 	if (sizeDiff <= 0)
 		return;
 
 	for (int i = 0; i < sizeDiff; i++) {
-		string key = queue.front();
-		map.erase(key);
+		
+		auto it = map.begin();
+		std::advance(it, rand() % map.size());
 
-		queue.pop();
+		string key = it->first;
+		map.erase(key);
 	}
 }

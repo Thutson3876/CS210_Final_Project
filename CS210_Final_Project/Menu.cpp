@@ -1,6 +1,8 @@
 #include "Menu.h"
 #include "Utils.h"
 #include "ICache.h"
+#include "LFUCache.h"
+#include "RRCache.h"
 #include <iostream>
 
 using namespace std;
@@ -34,6 +36,7 @@ void Menu::tick() {
 		return;
 	}
 
+	cout << options[i]->getPrompt() << endl;
 	options[i]->action();
 }
 
@@ -52,18 +55,18 @@ void Menu::close() {
 void Menu::setCache(CacheType type) {
 	if (cache != nullptr) {
 		delete cache;
-		cache = nullptr;
 	}
 	
-
 	switch (type)
 	{
 	case LFU:
-		
+		cache = new LFUCache();
 		break;
 	case FIFO:
+		cache = new BasicCache();
 		break;
 	case RR:
+		cache = new RRCache();
 		break;
 	default:
 		break;

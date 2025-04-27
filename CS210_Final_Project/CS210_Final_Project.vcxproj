@@ -130,8 +130,11 @@
     <ClCompile Include="BasicCache.cpp" />
     <ClCompile Include="CacheTypeOption.cpp" />
     <ClCompile Include="FindOption.cpp" />
+    <ClCompile Include="ICache.cpp" />
+    <ClCompile Include="LFUCache.cpp" />
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="IMenuOption.cpp" />
+    <ClCompile Include="RRCache.cpp" />
     <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -140,8 +143,10 @@
     <ClInclude Include="City.h" />
     <ClInclude Include="FindOption.h" />
     <ClInclude Include="ICache.h" />
+    <ClInclude Include="LFUCache.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="IMenuOption.h" />
+    <ClInclude Include="RRCache.h" />
     <ClInclude Include="Utils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

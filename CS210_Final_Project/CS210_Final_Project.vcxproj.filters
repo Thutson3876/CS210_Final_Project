@@ -33,6 +33,15 @@
     <ClCompile Include="CacheTypeOption.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="LFUCache.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RRCache.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ICache.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Menu.h">
@@ -57,6 +66,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CacheTypeOption.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LFUCache.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RRCache.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

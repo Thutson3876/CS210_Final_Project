@@ -1,13 +1,12 @@
 #pragma once
+#include "ICache.h"
 #include <unordered_map>
 #include <queue>
-#include "ICache.h"
-#include "Utils.h"
 
-class BasicCache : public ICache
+class LFUCache : public ICache
 {
 private:
-	std::queue<std::string> queue = {};
+	std::unordered_map<std::string, int> frequencyMap = {};
 
 	void add(City& city);
 
