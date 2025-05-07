@@ -42,6 +42,8 @@ private:
 			return;
 		}
 
+		print("Populating trie with data from " + filePath + "...");
+
 		// clear the first line since it has no useful data
 		getline(file, line);
 
@@ -54,6 +56,7 @@ private:
 
 			trie->insert(row[0] + row[1], stod(row[2]));
 		}
+		print("Trie populated!");
 
 		file.close();
 	}

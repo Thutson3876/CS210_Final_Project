@@ -24,6 +24,8 @@ void FindOption::action() {
 
 	// not in cache
 	if (city == nullptr) {
+		print("Cache miss.");
+
 		city = Menu::getInstance()->lookupCityFromTrie(countryCode, cityName);
 
 		if (city == nullptr) {
@@ -31,6 +33,8 @@ void FindOption::action() {
 			return;
 		}
 	}
+	else
+		print("Cache hit!");
 
 	cache->add(*city);
 
