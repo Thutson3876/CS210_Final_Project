@@ -7,6 +7,7 @@
 #include "ICache.h"
 #include "FindOption.h"
 #include "CacheTypeOption.h"
+#include "Trie.h"
 
 enum CacheType {
 	LFU,
@@ -23,6 +24,8 @@ private:
 
 	ICache* cache = nullptr;
 
+	Trie* trie = nullptr;
+
 	bool isOpened = false;
 
 	std::vector<IMenuOption*> options;
@@ -35,11 +38,13 @@ public:
 	Menu() {
 		options = { new FindOption(), new CacheTypeOption() };
 		cache = new BasicCache();
+		trie = new Trie();
 	}
 
 	Menu(std::vector<IMenuOption*> menuOptions) {
 		options = menuOptions;
 		cache = new BasicCache();
+		trie = new Trie();
 	}
 
 	static Menu* getInstance() {
@@ -66,6 +71,33 @@ public:
 
 	const std::vector<std::string> getAllCacheNames() {
 		return { "LFU", "FIFO", "Random Replacement"};
+	}
+
+	static City* lookupCityFromFile(std::string countryCode, std::string cityName) {
+		std::ifstream file(filePath);
+		std::string line, word;
+
+		if (!file.is_open()) {
+			std::cerr << "Error: Could not open file " << filePath << std::endl;
+			return nullptr;
+		}
+
+		while (getline(file, line)) {
+			std::stringstream ss(line);
+			std::vector<std::string> row;
+			while (getline(ss, word, ',')) {
+				row.push_back(word);
+			}
+			if (row[0] == countryCode && row[1] == cityName)
+				return new City(countryCode, cityName, stod(row[2]));
+		}
+		file.close();
+
+		return nullptr;
+	}
+
+	City* lookupCityFromTrie(std::string countryCode, std::string cityName){
+		return trie->search(countryCode + cityName);
 	}
 };
 

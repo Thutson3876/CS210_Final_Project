@@ -24,7 +24,7 @@ void FindOption::action() {
 
 	// not in cache
 	if (city == nullptr) {
-		city = lookupCityFromFile(countryCode, cityName);
+		city = Menu::getInstance()->lookupCityFromTrie(countryCode, cityName);
 
 		if (city == nullptr) {
 			cout << countryCode << " " << cityName << " Not Found." << endl;
