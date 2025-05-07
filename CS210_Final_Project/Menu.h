@@ -8,6 +8,7 @@
 #include "FindOption.h"
 #include "CacheTypeOption.h"
 #include "Trie.h"
+#include "Utils.h"
 
 enum CacheType {
 	LFU,
@@ -32,6 +33,31 @@ private:
 
 	void tick();
 
+	void populateTrie() {
+		std::ifstream file(filePath);
+		std::string line, word;
+
+		if (!file.is_open()) {
+			std::cerr << "Error: Could not open file " << filePath << std::endl;
+			return;
+		}
+
+		// clear the first line since it has no useful data
+		getline(file, line);
+
+		while (getline(file, line)) {
+			std::stringstream ss(line);
+			std::vector<std::string> row;
+			while (getline(ss, word, ',')) {
+				row.push_back(word);
+			}
+
+			trie->insert(row[0] + row[1], stod(row[2]));
+		}
+
+		file.close();
+	}
+
 public:
 	Menu(const Menu& obj) = delete;
 
@@ -39,12 +65,14 @@ public:
 		options = { new FindOption(), new CacheTypeOption() };
 		cache = new BasicCache();
 		trie = new Trie();
+		populateTrie();
 	}
 
 	Menu(std::vector<IMenuOption*> menuOptions) {
 		options = menuOptions;
 		cache = new BasicCache();
 		trie = new Trie();
+		populateTrie();
 	}
 
 	static Menu* getInstance() {

@@ -1,4 +1,5 @@
 #include "Trie.h"
+#include "Utils.h"
 
 void Trie::insert(const std::string& key, double population) {
 	TrieNode* node = root;
