@@ -142,7 +142,7 @@ void Menu::writeToOutputFile(std::string& cacheType, double lookupTime, bool hit
 	// If the file doesn't exist yet, add header info
 	if (!infile.good()) {
 		std::ofstream outfile(outputFileName);
-		outfile << "Cache Type, Lookup Time, Cache Hit" << endl;
+		outfile << "Cache Type, Lookup Time, Cache Hit";
 		outfile.close();
 	}
 

@@ -105,10 +105,16 @@ public:
 	std::vector<std::tuple<std::string, std::string>> generateRandomQueries(int count = 1000) {
 		std::vector<std::tuple<std::string, std::string>> returnVector;
 
+		int dupeMod = 2;
+
 		for (int i = 0; i < count; i++) {
 			City* city = getRandomCity();
 
 			returnVector.push_back({ city->countryCode, city->name });
+
+			if (rand() % dupeMod == 0) {
+				returnVector.push_back({ city->countryCode, city->name });
+			}
 
 			delete city;
 		}

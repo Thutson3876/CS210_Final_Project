@@ -6,6 +6,7 @@ using namespace std;
 
 static std::vector<std::tuple<std::string, std::string>> randomQueries;
 
+// Figure out why cache is always missing
 void OutputOption::action() {
 	auto menu = Menu::getInstance();
 
@@ -18,12 +19,13 @@ void OutputOption::action() {
 
 	Timer timer;
 	
-
 	for (auto& q : randomQueries) {
 		string countryCode = get<0>(q);
 		string cityName = get<1>(q);
 
 		bool cacheHit = true;
+
+		std::cout << "[";
 
 		double tic = timer.get_time();
 
@@ -35,21 +37,28 @@ void OutputOption::action() {
 			city = menu->lookupCityFromTrie(countryCode, cityName);
 
 			if (city == nullptr) {
-				cout << countryCode << " " << cityName << " Not Found." << endl;
+				std::cout << countryCode << " " << cityName << " Not Found." << endl;
 				continue;
 			}
 
 			cacheHit = false;
+
+			std::cout << "miss";
+		}
+		else {
+			std::cout << "hit";
 		}
 
 		double toc = timer.get_time();
 
 		menu->writeToOutputFile(cacheType, toc - tic, cacheHit);
 
-		cout << "[]";
+		cache->add(*city);
+
+		std::cout << "]";
 	}
 
-	cout << endl;
+	std::cout << endl;
 
-	cout << "Performance test complete!" << endl;
+	std::cout << "Performance test complete!" << endl;
 }
