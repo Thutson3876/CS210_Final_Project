@@ -4,8 +4,60 @@
 #include "LFUCache.h"
 #include "RRCache.h"
 #include <iostream>
+#include <fstream> 
 
 using namespace std;
+
+void Menu::populateTrie() {
+	std::ifstream file(filePath);
+	std::string line, word;
+
+	if (!file.is_open()) {
+		std::cerr << "Error: Could not open file " << filePath << std::endl;
+		return;
+	}
+
+	print("Populating trie with data from " + filePath + "...");
+
+	// clear the first line since it has no useful data
+	getline(file, line);
+
+	while (getline(file, line)) {
+		std::stringstream ss(line);
+		std::vector<std::string> row;
+		while (getline(ss, word, ',')) {
+			row.push_back(word);
+		}
+
+		trie->insert(row[0] + row[1], stod(row[2]));
+	}
+	print("Trie populated!");
+
+	file.close();
+}
+
+City* Menu::lookupCityFromFile(std::string& countryCode, std::string& cityName) {
+	std::ifstream file(filePath);
+	std::string line, word;
+
+	if (!file.is_open()) {
+		std::cerr << "Error: Could not open file " << filePath << std::endl;
+		return nullptr;
+	}
+
+	while (getline(file, line)) {
+		std::stringstream ss(line);
+		std::vector<std::string> row;
+		while (getline(ss, word, ',')) {
+			row.push_back(word);
+		}
+		if (row[0] == countryCode && row[1] == cityName)
+			return new City(countryCode, cityName, stod(row[2]));
+	}
+	file.close();
+
+	return nullptr;
+}
 
 void Menu::tick() {
 	string input;
@@ -61,12 +113,18 @@ void Menu::setCache(CacheType type) {
 	{
 	case LFU:
 		cache = new LFUCache();
+		outputFileName = "LFU.csv";
+		cacheName = "LFU";
 		break;
 	case FIFO:
 		cache = new BasicCache();
+		outputFileName = "FIFO.csv";
+		cacheName = "FIFO";
 		break;
 	case RR:
 		cache = new RRCache();
+		outputFileName = "RR.csv";
+		cacheName = "RR";
 		break;
 	default:
 		break;
@@ -75,4 +133,18 @@ void Menu::setCache(CacheType type) {
 
 ICache* Menu::getCache() {
 	return cache;
+}
+
+void Menu::writeToOutputFile(std::string& cacheType, double lookupTime, bool hitCache) {
+	std::ofstream outfile(outputFileName);
+	std::ifstream infile(outputFileName);
+
+	// If the file doesn't exist yet, add header info
+	if (!infile.good()) {
+		outfile << "Cache Type, Lookup Time, Cache Hit" << endl;
+	}
+
+	outfile << cacheType << ", " << lookupTime << ", " << hitCache << endl;
+
+	outfile.close();
 }

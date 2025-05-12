@@ -30,3 +30,28 @@ City* Trie::search(const std::string& key) {
 
 	return new City(countryCode, name, node->population);
 }
+
+City* Trie::randomSearch() {
+	TrieNode* node = root;
+	std::string key = "";
+
+	std::unordered_map<char,TrieNode*> children = node->children;
+	while (!children.empty()) {
+		int idx = rand() % children.size();
+		auto it = children.begin();
+		std::advance(it, idx);
+
+		key += it->first;
+		if (node->isEndOfWord)
+			break;
+		else
+			node = it->second;
+		
+		children = node->children;
+	}
+
+	std::string countryCode = key.substr(0, 2);
+	std::string name = key.substr(2, key.size() - 1);
+
+	return new City(countryCode, name, node->population);
+}

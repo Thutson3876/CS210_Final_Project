@@ -134,6 +134,7 @@
     <ClCompile Include="LFUCache.cpp" />
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="IMenuOption.cpp" />
+    <ClCompile Include="OutputOption.cpp" />
     <ClCompile Include="RRCache.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="Trie.cpp" />
@@ -147,7 +148,9 @@
     <ClInclude Include="LFUCache.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="IMenuOption.h" />
+    <ClInclude Include="OutputOption.h" />
     <ClInclude Include="RRCache.h" />
+    <ClInclude Include="timer.h" />
     <ClInclude Include="Trie.h" />
     <ClInclude Include="Utils.h" />
   </ItemGroup>

@@ -8,7 +8,9 @@
 #include "FindOption.h"
 #include "CacheTypeOption.h"
 #include "Trie.h"
+#include "OutputOption.h"
 #include "Utils.h"
+
 
 enum CacheType {
 	LFU,
@@ -25,48 +27,29 @@ private:
 
 	ICache* cache = nullptr;
 
+	std::string cacheName = "";
+
 	Trie* trie = nullptr;
 
 	bool isOpened = false;
 
+	bool doTracking = false;
+
 	std::vector<IMenuOption*> options;
+
+	std::string outputFileName = "";
 
 	void tick();
 
-	void populateTrie() {
-		std::ifstream file(filePath);
-		std::string line, word;
-
-		if (!file.is_open()) {
-			std::cerr << "Error: Could not open file " << filePath << std::endl;
-			return;
-		}
-
-		print("Populating trie with data from " + filePath + "...");
-
-		// clear the first line since it has no useful data
-		getline(file, line);
-
-		while (getline(file, line)) {
-			std::stringstream ss(line);
-			std::vector<std::string> row;
-			while (getline(ss, word, ',')) {
-				row.push_back(word);
-			}
-
-			trie->insert(row[0] + row[1], stod(row[2]));
-		}
-		print("Trie populated!");
-
-		file.close();
-	}
+	void populateTrie();
 
 public:
 	Menu(const Menu& obj) = delete;
 
 	Menu() {
-		options = { new FindOption(), new CacheTypeOption() };
+		options = { new FindOption(), new CacheTypeOption(), new OutputOption() };
 		cache = new BasicCache();
+		cacheName = "FIFO";
 		trie = new Trie();
 		populateTrie();
 	}
@@ -74,6 +57,7 @@ public:
 	Menu(std::vector<IMenuOption*> menuOptions) {
 		options = menuOptions;
 		cache = new BasicCache();
+		cacheName = "FIFO";
 		trie = new Trie();
 		populateTrie();
 	}
@@ -96,6 +80,10 @@ public:
 
 	ICache* getCache();
 
+	std::string getCacheName() {
+		return cacheName;
+	}
+
 	const std::vector<CacheType> getAllCacheTypes() {
 		return { LFU, FIFO, RR };
 	}
@@ -104,31 +92,35 @@ public:
 		return { "LFU", "FIFO", "Random Replacement"};
 	}
 
-	static City* lookupCityFromFile(std::string countryCode, std::string cityName) {
-		std::ifstream file(filePath);
-		std::string line, word;
+	static City* lookupCityFromFile(std::string& countryCode, std::string& cityName);
 
-		if (!file.is_open()) {
-			std::cerr << "Error: Could not open file " << filePath << std::endl;
-			return nullptr;
-		}
-
-		while (getline(file, line)) {
-			std::stringstream ss(line);
-			std::vector<std::string> row;
-			while (getline(ss, word, ',')) {
-				row.push_back(word);
-			}
-			if (row[0] == countryCode && row[1] == cityName)
-				return new City(countryCode, cityName, stod(row[2]));
-		}
-		file.close();
-
-		return nullptr;
-	}
-
-	City* lookupCityFromTrie(std::string countryCode, std::string cityName){
+	City* lookupCityFromTrie(std::string& countryCode, std::string& cityName){
 		return trie->search(countryCode + cityName);
 	}
+
+	City* getRandomCity() {
+		return trie->randomSearch();
+	}
+
+	std::vector<std::tuple<std::string, std::string>> generateRandomQueries(int count = 1000) {
+		std::vector<std::tuple<std::string, std::string>> returnVector;
+
+		for (int i = 0; i < count; i++) {
+			City* city = getRandomCity();
+
+			returnVector.push_back({ city->countryCode, city->name });
+
+			delete city;
+		}
+
+		return returnVector;
+	}
+
+	void setTracking(bool doTracking) {
+		this->doTracking = doTracking;
+	}
+
+	void writeToOutputFile(std::string& cacheType, double lookupTime, bool hitCache);
+
 };
 

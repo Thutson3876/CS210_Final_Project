@@ -27,5 +27,7 @@ public:
 	void insert(const std::string& key, double population);
 
 	City* search(const std::string& key);
+
+	City* randomSearch();
 };
 
