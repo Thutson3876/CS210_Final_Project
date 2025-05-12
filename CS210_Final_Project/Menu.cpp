@@ -136,15 +136,15 @@ ICache* Menu::getCache() {
 }
 
 void Menu::writeToOutputFile(std::string& cacheType, double lookupTime, bool hitCache) {
-	std::ofstream outfile(outputFileName);
+	
 	std::ifstream infile(outputFileName);
 
 	// If the file doesn't exist yet, add header info
 	if (!infile.good()) {
+		std::ofstream outfile(outputFileName);
 		outfile << "Cache Type, Lookup Time, Cache Hit" << endl;
+		outfile.close();
 	}
 
-	outfile << cacheType << ", " << lookupTime << ", " << hitCache << endl;
-
-	outfile.close();
+	writeCSV(outputFileName, cacheType, hitCache, lookupTime);
 }

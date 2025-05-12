@@ -16,3 +16,14 @@ static bool is_number(const std::string& s)
 static void print(const std::string& s) {
     std::cout << s << std::endl;
 }
+
+static void writeCSV(const std::string& filename, const std::string& cacheType, const bool cacheHit, const double& timeTaken) {
+    std::ofstream file;
+    file.open(filename, std::ios::out | std::ios::app);
+
+    file << ",\n";
+
+    file << cacheType << "," << timeTaken << "," << cacheHit;
+
+    file.close();
+}
